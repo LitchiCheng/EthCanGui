@@ -9,12 +9,11 @@ import CanData as can
 class receiveBase(object):
     def __init__(self):
         self.data_que = []
-    def pushData(self, tx_data):
-        if isinstance(tx_data, can.txCanData):
-            self.data_que.append(tx_data)
+    def pushData(self, rx_data):
+        if isinstance(rx_data, can.rxCanData):
+            self.data_que.append(rx_data)
         else:
-            print("push data type error %s %s" % (type(tx_data),type(can.txCanData)))
-        self.data_que.append(tx_data)
+            print("push data type error %s %s" % (type(rx_data),type(can.txCanData)))
     def read(self):
         pass
 
