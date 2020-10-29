@@ -1,1 +1,1 @@
-pyuic5 -o EthCanGui.py EthCanGui.ui
+pyuic5 -o EthCanGui.py EthCanGuiUi.ui
