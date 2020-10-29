@@ -38,6 +38,11 @@ class receiveByUdp(receiveBase):
             (self.data, self.remoteaddr) = self.so.recvfrom(1024)
         except socket.timeout:
             pass
+        self.so.sendto(struct.pack('<2I', 0x1018, 0xffffffff), ('192.168.192.4', 15003))
+        try:
+            (self.data, self.remoteaddr) = self.so.recvfrom(1024)
+        except socket.timeout:
+            pass
     
     def queryForFrame(self, num):
         fullMsg = struct.pack('<2I', 0x1019, num)
