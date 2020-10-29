@@ -1,10 +1,7 @@
 import CanFrame_pb2
-import socket
-import struct
-import time
-import os
-import sys
+import socket, struct, time, os, sys
 import CanData as can
+from datetime import datetime
 
 class receiveBase(object):
     def __init__(self):
@@ -29,6 +26,11 @@ class receiveByUdp(receiveBase):
         self.data = ""
         self.launchEthCanTool()
         self.queryForFrame(50)
+        self.count = 0
+        self.use_usrstamp = False
+
+    def setUserTimestamp(self, status):
+        self.use_usrstamp = status
 
     def launchEthCanTool(self):
         self.so.sendto(struct.pack('<2I', 0x1016, 0xffffffff), ('192.168.192.4', 15003))
@@ -59,6 +61,9 @@ class receiveByUdp(receiveBase):
                 os.system('pause')
             self.msgdict[frame.ID] = frame
             update = True
+            self.count = self.count + 1
+            
+                
         elif 0x00001041 == msgId:
             self.framerate = struct.unpack('<2I', pbdata)
         if(update):
@@ -67,11 +72,15 @@ class receiveByUdp(receiveBase):
                 dirc = 'TX'
             else:
                 dirc = 'RX'
-            tmps = '0x%04X\t%d\t%d\t%s\t%d\t{ ' % (
-                self.msgdict[frame.ID].ID, self.msgdict[frame.ID].Channel, self.msgdict[frame.ID].DLC, dirc, self.msgdict[frame.ID].Timestamp)
+            if not self.use_usrstamp:
+                tmps = '%d\t0x%04X\t%d\t%d\t%s\t%d\t ' % (
+                    self.count, self.msgdict[frame.ID].ID, self.msgdict[frame.ID].Channel, self.msgdict[frame.ID].DLC, dirc, self.msgdict[frame.ID].Timestamp)
+            else:
+                tmps = '%d\t0x%04X\t%d\t%d\t%s\t%s\t ' % (
+                    self.count, self.msgdict[frame.ID].ID, self.msgdict[frame.ID].Channel, self.msgdict[frame.ID].DLC, dirc, datetime.strftime(datetime.now(), '%H:%M:%S.%f')[0:-3])
             for i in range(0, self.msgdict[frame.ID].DLC):
                 tmps += ('0x%02X ' % self.msgdict[frame.ID].Data[i])
-            tmps += '}\n'
+            tmps += '\n'
             # sys.stdout.write(tmps)
             print_callback(tmps)
 
