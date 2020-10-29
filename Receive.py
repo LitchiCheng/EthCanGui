@@ -52,8 +52,8 @@ class receiveByUdp(receiveBase):
         try:
             (self.data, self.remoteaddr) = self.so.recvfrom(1024)
         except socket.timeout:
-            print('timeout')
             self.launchEthCanTool()
+            return 'receive no data...........'
         (msgId, pbdata) = struct.unpack('<I' + str(len(self.data) - 4) + 's', self.data)
         frame = CanFrame_pb2.CanFrame()
         update = False
@@ -67,8 +67,6 @@ class receiveByUdp(receiveBase):
             self.msgdict[frame.ID] = frame
             update = True
             self.count = self.count + 1
-            
-                
         elif 0x00001041 == msgId:
             self.framerate = struct.unpack('<2I', pbdata)
         if(update):
@@ -88,6 +86,9 @@ class receiveByUdp(receiveBase):
             tmps += '\n'
             # sys.stdout.write(tmps)
             print_callback(tmps)
+            return tmps
+        else:
+            return ""
 
 if __name__ == "__main__":
     test = receiveByUdp()

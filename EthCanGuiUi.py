@@ -187,3 +187,6 @@ class Ui_MainWindow(object):
         self.open_button.setText(_translate("MainWindow", "Open"))
         self.menuabout.setTitle(_translate("MainWindow", "about"))
         self.actionversion.setText(_translate("MainWindow", "version"))
+
+    def dispContent(self, argvStr):
+        pass

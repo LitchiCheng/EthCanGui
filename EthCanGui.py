@@ -5,6 +5,7 @@ import Receive,Send,CanData,EthCanGuiUi,time
 from datetime import datetime
 
 class ReceiveThread(QtCore.QThread):
+    updated = QtCore.pyqtSignal(str)
     def __init__(self, dispContent):
         super(ReceiveThread, self).__init__()
         self.dispContent = dispContent
@@ -12,8 +13,11 @@ class ReceiveThread(QtCore.QThread):
 
     def run(self):
         while True:
-            self.udp_read.read(self.dispContent)
-            time.sleep(0.0001)
+            rec_str = self.udp_read.read(self.dispContent)
+            if rec_str != "":
+                self.updated.emit(str(rec_str))
+            elif rec_str == "receive no data...........":
+                self.udp_read.launchEthCanTool()
     
     def setUserTimestamp(self, status):
         self.udp_read.setUserTimestamp(status)
@@ -42,8 +46,19 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
 
         self.serialThread = ReceiveThread(self.dispContent)
         self.serialThread.start()
+        self.serialThread.updated.connect(self.updateText)
 
         self.udp_send = Send.sendByUdp()
+
+    def updateText(self, text):
+        if self.print_flag:
+            self.textEdit.append(str(text))
+            self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        # save to file
+        if self.save_flag:
+            if self.save_dirpath[0] != "":
+                with open(self.save_dirpath[0],'a') as f:
+                    f.write(text)
 
     def selectTimeType(self):
         if self.comboBox.currentText() == "Original Stamp":
@@ -74,15 +89,16 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
             self.save_button.setText("Start Save")
         
     def dispContent(self, argvStr):
-        print(argvStr)
-        if self.print_flag:
-            self.textEdit.append(argvStr)
-            self.textEdit.moveCursor(self.textEdit.textCursor().End)
-        # save to file
-        if self.save_flag:
-            if self.save_dirpath[0] != "":
-                with open(self.save_dirpath[0],'a') as f:
-                    f.write(argvStr)
+        # # print(argvStr)
+        # if self.print_flag:
+        #     self.textEdit.append(str(argvStr))
+        #     self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        # # save to file
+        # if self.save_flag:
+        #     if self.save_dirpath[0] != "":
+        #         with open(self.save_dirpath[0],'a') as f:
+        #             f.write(argvStr)
+        pass
 
     def sendCanData(self):
         for send_line in self.usr_send_line_que:  
@@ -104,8 +120,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     myWin = MyWindow()
     with open('qss/DarkOrangeQss.txt') as file:
-        str = file.readlines()
-        str = ''.join(str).strip('\n')
-        app.setStyleSheet(str)
+        qss_str = file.readlines()
+        qss_str = ''.join(qss_str).strip('\n')
+        app.setStyleSheet(qss_str)
     myWin.show()
     sys.exit(app.exec_())
