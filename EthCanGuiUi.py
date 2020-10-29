@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'EthCanGui.ui'
+# Form implementation generated from reading ui file 'EthCanGuiUi.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -146,19 +146,11 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addLayout(self.verticalLayout_2, 0, 1, 1, 1)
         self.gridLayout_3.addLayout(self.gridLayout_2, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 900, 23))
-        self.menubar.setObjectName("menubar")
-        self.menuabout = QtWidgets.QMenu(self.menubar)
-        self.menuabout.setObjectName("menuabout")
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.actionversion = QtWidgets.QAction(MainWindow)
         self.actionversion.setObjectName("actionversion")
-        self.menuabout.addAction(self.actionversion)
-        self.menubar.addAction(self.menuabout.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -185,8 +177,4 @@ class Ui_MainWindow(object):
         self.line_id_3.setText(_translate("MainWindow", "0x000000"))
         self.send_button.setText(_translate("MainWindow", "Send"))
         self.open_button.setText(_translate("MainWindow", "Open"))
-        self.menuabout.setTitle(_translate("MainWindow", "about"))
         self.actionversion.setText(_translate("MainWindow", "version"))
-
-    def dispContent(self, argvStr):
-        pass
