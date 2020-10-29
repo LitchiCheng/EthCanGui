@@ -15,7 +15,6 @@ class sendBase(object):
             self.data_que.append(tx_data)
         else:
             print("push data type error %s %s" % (type(tx_data),type(can.txCanData)))
-        self.data_que.append(tx_data)
     def send(self):
         pass
     
@@ -56,7 +55,6 @@ if __name__ == "__main__":
     while True:
         test_data.setID(0x103)
         udp_send.pushData(test_data)
-        # test_data2 = can.txCanData()
         test_data2 = copy.deepcopy(test_data)
         test_data2.setID(0x105)
         udp_send.pushData(test_data2)

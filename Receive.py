@@ -41,7 +41,7 @@ class receiveByUdp(receiveBase):
         fullMsg = struct.pack('<2I', 0x1019, num)
         self.so.sendto(fullMsg, ('192.168.192.4', 15003))
 
-    def read(self):
+    def read(self, print_callback):
         try:
             (self.data, self.remoteaddr) = self.so.recvfrom(1024)
         except socket.timeout:
@@ -72,7 +72,8 @@ class receiveByUdp(receiveBase):
             for i in range(0, self.msgdict[frame.ID].DLC):
                 tmps += ('0x%02X ' % self.msgdict[frame.ID].Data[i])
             tmps += '}\n'
-            sys.stdout.write(tmps)
+            # sys.stdout.write(tmps)
+            print_callback(tmps)
 
 if __name__ == "__main__":
     test = receiveByUdp()
