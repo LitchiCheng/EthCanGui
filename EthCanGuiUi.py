@@ -23,6 +23,14 @@ class Ui_MainWindow(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setObjectName("label_7")
+        self.horizontalLayout_2.addWidget(self.label_7)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -31,7 +39,15 @@ class Ui_MainWindow(object):
         self.textEdit.setFont(font)
         self.textEdit.setMouseTracking(False)
         self.textEdit.setObjectName("textEdit")
-        self.horizontalLayout.addWidget(self.textEdit)
+        self.verticalLayout_4.addWidget(self.textEdit)
+        self.horizontalLayout.addLayout(self.verticalLayout_4)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.line_2 = QtWidgets.QFrame(self.centralwidget)
+        self.line_2.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.verticalLayout_3.addWidget(self.line_2)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setContentsMargins(-1, 200, -1, -1)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -52,7 +68,8 @@ class Ui_MainWindow(object):
         self.save_button = QtWidgets.QPushButton(self.centralwidget)
         self.save_button.setObjectName("save_button")
         self.verticalLayout.addWidget(self.save_button)
-        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.verticalLayout_3.addLayout(self.verticalLayout)
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.gridLayout_3.addLayout(self.horizontalLayout, 0, 0, 1, 1)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -158,6 +175,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EthCanGui"))
+        self.label_7.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Index         ID           CAN           DLC          DIR           TIMESTAMP      DATA</p></body></html>"))
         self.label.setText(_translate("MainWindow", "Choose Time Type"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Original Stamp"))
         self.comboBox.setItemText(1, _translate("MainWindow", "User Date"))

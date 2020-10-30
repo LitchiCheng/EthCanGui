@@ -51,12 +51,11 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
 
         self.udp_send = Send.sendByUdp()
 
-        self.textEdit.document().setMaximumBlockCount(5000)
+        self.textEdit.document().setMaximumBlockCount(10000)
 
     def updateText(self, text):
         if self.print_flag:
             self.textEdit.append(str(text))
-            self.textEdit.moveCursor(self.textEdit.textCursor().End)
         # save to file
         if self.save_flag:
             if self.save_dirpath[0] != "":
@@ -73,6 +72,7 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         self.print_flag = not self.print_flag
         if self.print_flag:
             self.stop_button.setText("Stop Print")
+            self.textEdit.moveCursor(self.textEdit.textCursor().End)
         else:
             self.stop_button.setText("Continue Print")
 
