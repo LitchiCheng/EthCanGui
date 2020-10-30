@@ -13,6 +13,7 @@ class ReceiveThread(QtCore.QThread):
 
     def run(self):
         while True:
+            time.sleep(0.0001)
             rec_str = self.udp_read.read(self.dispContent)
             if rec_str != "":
                 self.updated.emit(str(rec_str))
@@ -49,6 +50,8 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         self.serialThread.updated.connect(self.updateText)
 
         self.udp_send = Send.sendByUdp()
+
+        self.textEdit.document().setMaximumBlockCount(5000)
 
     def updateText(self, text):
         if self.print_flag:
