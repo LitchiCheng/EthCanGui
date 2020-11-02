@@ -51,7 +51,7 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
 
         self.udp_send = Send.sendByUdp()
 
-        self.textEdit.document().setMaximumBlockCount(10000)
+        self.textEdit.document().setMaximumBlockCount(3000)
 
     def updateText(self, text):
         if self.print_flag:
@@ -59,8 +59,7 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         # save to file
         if self.save_flag:
             if self.save_dirpath[0] != "":
-                with open(self.save_dirpath[0],'a') as f:
-                    f.write(text)
+                self.file.write(text)
 
     def selectTimeType(self):
         if self.comboBox.currentText() == "Original Stamp":
@@ -88,8 +87,10 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
                 self.save_button.setText("Start Save")
             else:
                 self.save_flag = True
+                self.file = open(self.save_dirpath[0],'a')
         else:
             self.save_button.setText("Start Save")
+            self.file.close()
         
     def dispContent(self, argvStr):
         # # print(argvStr)
@@ -128,3 +129,4 @@ if __name__ == '__main__':
         app.setStyleSheet(qss_str)
     myWin.show()
     sys.exit(app.exec_())
+    myWin.file.close()
