@@ -83,7 +83,7 @@ class receiveByUdp(receiveBase):
                     self.count, self.msgdict[frame.ID].ID, self.msgdict[frame.ID].Channel, self.msgdict[frame.ID].DLC, dirc, datetime.strftime(datetime.now(), '%H:%M:%S.%f')[0:-3])
             for i in range(0, self.msgdict[frame.ID].DLC):
                 tmps += ('0x%02X ' % self.msgdict[frame.ID].Data[i])
-            tmps += ''
+            tmps += '\n'
             # sys.stdout.write(tmps)
             print_callback(tmps)
             return tmps

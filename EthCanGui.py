@@ -79,7 +79,9 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         self.save_flag = not self.save_flag
         if self.save_flag:
             self.save_button.setText("Stop Save")
-            file_str = datetime.strftime(datetime.now(), 'can_%Y-%M-%H-%M-%S.%f')[0:-3]
+            # can_2020-24-15-24-53.740404.log %Y-%m-%d %H:%M:%S
+            file_str = datetime.strftime(datetime.now(), 'can_%Y-%m-%d-%H:%M:%S.%f').replace(" ","")
+            print(datetime.now())
             self.save_dirpath = QFileDialog.getSaveFileName(self, '选择保存路径', 'C:\\' +file_str+'.log', 'log(*.log)')
             print(self.save_dirpath)
             if self.save_dirpath[0] is "":
