@@ -112,7 +112,7 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
                 test_data = CanData.txCanData()
                 test_data.setID(int(send_line[1].text(), base=16))
                 test_data.setChannel(1)
-                data_array = self.line_data_1.text().split(" ")
+                data_array = send_line[2].text().split(" ")
                 for index in range(len(data_array)):
                     data_array[index] = int("0x" + data_array[index], base=16)
                 print(data_array)
