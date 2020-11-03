@@ -1,7 +1,6 @@
-import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
-import Receive,Send,CanData,EthCanGuiUi,time
+import Receive,Send,CanData,EthCanGuiUi,time,json,sys
 from datetime import datetime
 
 class ReceiveThread(QtCore.QThread):
@@ -40,6 +39,7 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         self.save_button.clicked.connect(self.saveCanData)
         self.stop_button.clicked.connect(self.stopPrint)
         self.comboBox.currentIndexChanged.connect(self.selectTimeType)
+        self.menuhelp.triggered.connect(self.getAbout)
 
         self.save_flag = False
         self.print_flag = True
@@ -52,6 +52,16 @@ class MyWindow(QMainWindow, EthCanGuiUi.Ui_MainWindow):
         self.udp_send = Send.sendByUdp()
 
         self.textEdit.document().setMaximumBlockCount(3000)
+
+        config_file = open('info.json')
+        js = json.load(config_file)
+        self.version = js["version"]
+
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("MainWindow", "EthCanGui " + self.version))
+    
+    def getAbout(self):
+        QtWidgets.QMessageBox.about(self, "Version", "EthCanGui " + self.version)
 
     def updateText(self, text):
         if self.print_flag:
